@@ -74,17 +74,9 @@ const createTour = (req, res) => {
     );
 
 }
-// get all tours 
-app.get('/api/v1/tours', getAllTours);
 
-// get tour by id
-app.get('/api/v1/tours/:id', getTour);
-
-// create tour
-app.post('/api/v1/tours', createTour);
-
-// update tour by id
-app.patch('/api/v1/tours/:id', (req, res) => {
+// update tour
+const updateTour = (req, res) => {
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
             status: 'fail',
@@ -98,7 +90,18 @@ app.patch('/api/v1/tours/:id', (req, res) => {
             tour: '<Updated tour here...>'
         }
     })
-})
+}
+// get all tours 
+app.get('/api/v1/tours', getAllTours);
+
+// get tour by id
+app.get('/api/v1/tours/:id', getTour);
+
+// create tour
+app.post('/api/v1/tours', createTour);
+
+// update tour by id
+app.patch('/api/v1/tours/:id', updateTour)
 // delete tour by id
 app.delete('/api/v1/tours/:id', (req, res) => {
     if (req.params.id * 1 > tours.length) {

@@ -20,11 +20,9 @@ const getAllTours = (req, res) => {
     })
 
 }
-// get all tours 
-app.get('/api/v1/tours', getAllTours);
 
-// get tour by id
-app.get('/api/v1/tours/:id', (req, res) => {
+// get tour by id 
+const getTour = (req, res) => {
     // console re paramaters
     console.log(req.params);
 
@@ -51,10 +49,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
 
     })
 
-});
-
-// tours post route
-app.post('/api/v1/tours', (req, res) => {
+}
+// create tour
+const createTour = (req, res) => {
     // console.log(req.body)
     // new tour id
     const newId = tours[tours.length - 1].id + 1;
@@ -76,7 +73,15 @@ app.post('/api/v1/tours', (req, res) => {
         }
     );
 
-});
+}
+// get all tours 
+app.get('/api/v1/tours', getAllTours);
+
+// get tour by id
+app.get('/api/v1/tours/:id', getTour);
+
+// create tour
+app.post('/api/v1/tours', createTour);
 
 // update tour by id
 app.patch('/api/v1/tours/:id', (req, res) => {

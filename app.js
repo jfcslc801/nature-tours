@@ -9,7 +9,7 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 )
 
-// tours get route
+// get tours 
 app.get('/api/v1/tours', (req, res) => {
     res.status(200).json({
         status: 'Success',
@@ -25,6 +25,7 @@ app.get('/api/v1/tours', (req, res) => {
 app.get('/api/v1/tours/:id', (req, res) => {
     // console re paramaters
     console.log(req.params);
+    // convert strings to number
     const id = req.params.id * 1;
     const tour = tours.find(el => el.id === id)
 

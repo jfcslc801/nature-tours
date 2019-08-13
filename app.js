@@ -93,7 +93,7 @@ const updateTour = (req, res) => {
 }
 
 // delete tour
-const deletTour = (req, res) => {
+const deleteTour = (req, res) => {
     if (req.params.id * 1 > tours.length) {
         return res.status(404).json({
             status: 'fail',
@@ -110,6 +110,12 @@ const deletTour = (req, res) => {
 app.route('/api/v1/tours')
     .get(getAllTours)
     .post(createTour);
+
+// app route gets tour by ID, creates tour, updates tour
+app.route('/api/v1/tours/:id')
+    .get(getTour)
+    .patch(updateTour)
+    .delete(deleteTour);
 // get all tours 
 app.get('/api/v1/tours', getAllTours);
 // get tour by id
@@ -119,7 +125,7 @@ app.post('/api/v1/tours', createTour);
 // update tour by id
 app.patch('/api/v1/tours/:id', updateTour);
 // delete tour by id
-app.delete('/api/v1/tours/:id', deletTour);
+app.delete('/api/v1/tours/:id', deleteTour);
 
 
 const port = 3000;

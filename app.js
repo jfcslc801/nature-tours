@@ -25,6 +25,13 @@ app.get('/api/v1/tours', (req, res) => {
 app.get('/api/v1/tours/:id', (req, res) => {
     // console re paramaters
     console.log(req.params);
+    // if id greater than tours length return error
+    if (id > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'invalid ID'
+        })
+    }
     // convert strings to number
     const id = req.params.id * 1;
     // find el by id

@@ -9,8 +9,8 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 )
 
-// get tours 
-app.get('/api/v1/tours', (req, res) => {
+// get all tours 
+const getAllTours = (req, res) => {
     res.status(200).json({
         status: 'Success',
         results: tours.length,
@@ -19,7 +19,9 @@ app.get('/api/v1/tours', (req, res) => {
         }
     })
 
-});
+}
+// get all tours 
+app.get('/api/v1/tours', getAllTours);
 
 // get tour by id
 app.get('/api/v1/tours/:id', (req, res) => {

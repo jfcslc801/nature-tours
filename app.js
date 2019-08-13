@@ -18,20 +18,16 @@ const getAllTours = (req, res) => {
             tours
         }
     })
-
 }
 
 // get tour by id 
 const getTour = (req, res) => {
     // console re paramaters
     console.log(req.params);
-
     // convert strings to number (get id)
     const id = req.params.id * 1;
-
     // find tour by id
     const tour = tours.find(el => el.id === id)
-
     // if tour is undefined return error
     if (!tour) {
         return res.status(404).json({
@@ -39,8 +35,6 @@ const getTour = (req, res) => {
             message: 'invalid ID'
         });
     }
-
-
     res.status(200).json({
         status: 'Success',
         data: {
@@ -48,8 +42,8 @@ const getTour = (req, res) => {
         }
 
     })
-
 }
+
 // create tour
 const createTour = (req, res) => {
     // console.log(req.body)
@@ -116,16 +110,6 @@ app.route('/api/v1/tours/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
-// get all tours 
-app.get('/api/v1/tours', getAllTours);
-// get tour by id
-app.get('/api/v1/tours/:id', getTour);
-// create tour
-app.post('/api/v1/tours', createTour);
-// update tour by id
-app.patch('/api/v1/tours/:id', updateTour);
-// delete tour by id
-app.delete('/api/v1/tours/:id', deleteTour);
 
 
 const port = 3000;

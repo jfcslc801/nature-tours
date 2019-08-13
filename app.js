@@ -27,6 +27,7 @@ app.get('/api/v1/tours/:id', (req, res) => {
     console.log(req.params);
     // convert strings to number
     const id = req.params.id * 1;
+    // find el by id
     const tour = tours.find(el => el.id === id)
 
     res.status(200).json({

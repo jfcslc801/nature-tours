@@ -107,6 +107,42 @@ const deleteTour = (req, res) => {
     })
 }
 
+const getAllUsers = (req, res) => {
+    // respose for deleted tour
+    res.status(500).json({
+        status: 'Error',
+        message: 'This route not implemented'
+    })
+}
+const getUser = (req, res) => {
+    // respose for deleted tour
+    res.status(500).json({
+        status: 'Error',
+        message: 'This route not implemented'
+    })
+}
+const createUser = (req, res) => {
+    // respose for deleted tour
+    res.status(500).json({
+        status: 'Error',
+        message: 'This route not implemented'
+    })
+}
+const updateUser = (req, res) => {
+    // respose for deleted tour
+    res.status(500).json({
+        status: 'Error',
+        message: 'This route not implemented'
+    })
+}
+const deleteUser = (req, res) => {
+    // respose for deleted tour
+    res.status(500).json({
+        status: 'Error',
+        message: 'This route not implemented'
+    })
+}
+
 // ROUTES
 // app route get all tours and create tour
 app.route('/api/v1/tours')
@@ -118,6 +154,16 @@ app.route('/api/v1/tours/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
+
+// USER ROUTES
+app.route('/api/v1/users')
+    .get(getAllUsers)
+    .post(createUser);
+
+app.route('/api/v1/users/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser);
 
 // START SERVER
 const port = 3000;

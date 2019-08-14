@@ -1,56 +1,18 @@
 const express = require('express');
-
-const getAllUsers = (req, res) => {
-    // respose for deleted tour
-    res.status(500).json({
-        status: 'Error',
-        message: 'This route not implemented'
-    })
-}
-const getUser = (req, res) => {
-    // respose for deleted tour
-    res.status(500).json({
-        status: 'Error',
-        message: 'This route not implemented'
-    })
-}
-const createUser = (req, res) => {
-    // respose for deleted tour
-    res.status(500).json({
-        status: 'Error',
-        message: 'This route not implemented'
-    })
-}
-const updateUser = (req, res) => {
-    // respose for deleted tour
-    res.status(500).json({
-        status: 'Error',
-        message: 'This route not implemented'
-    })
-}
-const deleteUser = (req, res) => {
-    // respose for deleted tour
-    res.status(500).json({
-        status: 'Error',
-        message: 'This route not implemented'
-    })
-}
-
-
-// ROUTES
+const userController = require('./../controllers/userController')
 const router = express.Router();
 
 
 // USER ROUTES
 router
     .route('/')
-    .get(getAllUsers)
-    .post(createUser);
+    .get(userController.getAllUsers)
+    .post(userController.createUser);
 
 router
     .route('/:id')
-    .get(getUser)
-    .patch(updateUser)
-    .delete(deleteUser);
+    .get(userController.getUser)
+    .patch(userController.updateUser)
+    .delete(userController.deleteUser);
 
 module.exports = router;

@@ -40,9 +40,9 @@ const Tour = mongoose.model('Tour', tourSchema);
 
 // create db tour
 const newTour = new Tour({
-  name: 'The Forest Hiker II',
-  price: 497,
-  rating: 4.7
+  name: 'The Park Camper',
+  rating: 4.7,
+  price: 997
 });
 
 // save tour to database

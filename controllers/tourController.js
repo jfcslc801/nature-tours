@@ -21,19 +21,21 @@ exports.getAllTours = async (req, res) => {
 };
 
 // get tour by id
-exports.getTour = (req, res) => {
-  // console re paramaters
-  console.log(req.params);
-  // convert strings to number (get id)
-  //   const id = req.params.id * 1;
-  //   // find tour by id
-  //   const tour = tours.find(el => el.id === id);
-  //   res.status(200).json({
-  //     status: 'Success',
-  //     data: {
-  //       tour
-  //     }
-  //   });
+exports.getTour = async (req, res) => {
+  try {
+    const tour = await Tour.findById(req.params.id);
+    res.status(200).json({
+      status: 'Success',
+      data: {
+        tour
+      }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'Fail',
+      message: 'Error Gathering Data!'
+    });
+  }
 };
 
 // create tour

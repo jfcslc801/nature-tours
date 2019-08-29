@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 const Tour = require('./../models/tourModel');
 
 // get all tours
@@ -15,7 +15,7 @@ exports.getAllTours = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'Fail',
-      message: 'Error Gathering Data!'
+      message: err
     });
   }
 };
@@ -33,7 +33,7 @@ exports.getTour = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'Fail',
-      message: 'Error Gathering Data!'
+      message: err
     });
   }
 };
@@ -59,14 +59,24 @@ exports.createTour = async (req, res) => {
 };
 
 // update tour
-exports.updateTour = (req, res) => {
-  // update to tour
-  res.status(200).json({
-    status: 'Success',
-    data: {
-      tour: '<Updated tour here...>'
-    }
-  });
+exports.updateTour = async (req, res) => {
+  try {
+    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true
+    });
+    // update to tour
+    res.status(200).json({
+      status: 'Success',
+      data: {
+        tour: '<Updated tour here...>'
+      }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'Fail',
+      message: err
+    });
+  }
 };
 
 // delete tour

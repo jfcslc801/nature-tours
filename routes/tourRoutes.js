@@ -3,8 +3,10 @@ const tourController = require('./../controllers/tourController');
 
 const router = express.Router();
 
-// id parameters
-// router.param('id', tourController.checkID);
+// 5 cheap top rated tours
+router
+  .route('/top-5-cheap')
+  .get(tourController.topTours, tourController.getAllTours);
 
 // app route get all tours and create tour
 router

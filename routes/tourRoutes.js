@@ -8,6 +8,9 @@ router
   .route('/top-5-cheap')
   .get(tourController.topTours, tourController.getAllTours);
 
+//stats route
+router.route('/tour-stats').get(tourController.getTourStats);
+
 // app route get all tours and create tour
 router
   .route('/')

@@ -11,6 +11,9 @@ router
 //stats route
 router.route('/tour-stats').get(tourController.getTourStats);
 
+//monthly plan route
+router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
+
 // app route get all tours and create tour
 router
   .route('/')

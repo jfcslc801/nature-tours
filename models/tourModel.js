@@ -79,8 +79,15 @@ tourSchema.pre('save', function(next) {
 });
 
 //filter secret tours
-tourSchema.pre('find', function(next) {
+tourSchema.pre(/^find/, function(next) {
   this.find({ secretTour: { $ne: true } });
+  next();
+});
+
+// aggregation middleware
+tourSchema.pre('aggregate', function(next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  console.log(this.pipeline());
   next();
 });
 

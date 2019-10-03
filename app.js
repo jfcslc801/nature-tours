@@ -24,6 +24,7 @@ app.all('*', (req, res, next) => {
   });
 });
 
+// global error handler
 app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
@@ -33,4 +34,5 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
+
 module.exports = app;

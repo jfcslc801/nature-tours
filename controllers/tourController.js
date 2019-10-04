@@ -1,6 +1,7 @@
 // const fs = require('fs');
 const Tour = require('./../models/tourModel');
 const APIfeatures = require('./../utils/apiFeatures');
+const catchAsync = require('./../utils/catchAsync');
 
 // top five cheap tours
 exports.topTours = (req, res, next) => {
@@ -57,24 +58,16 @@ exports.getTour = async (req, res) => {
 };
 
 // create tour
-exports.createTour = async (req, res) => {
-  try {
-    // create new tour
-    const newTour = await Tour.create(req.body);
+exports.createTour = catchAsync(async (req, res, next) => {
+  const newTour = await Tour.create(req.body);
 
-    res.status(201).json({
-      status: 'Success',
-      data: {
-        tour: newTour
-      }
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'Fail',
-      message: err
-    });
-  }
-};
+  res.status(201).json({
+    status: 'Success',
+    data: {
+      tour: newTour
+    }
+  });
+});
 
 // update tour
 exports.updateTour = async (req, res) => {

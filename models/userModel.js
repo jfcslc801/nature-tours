@@ -26,7 +26,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please confirm password!'],
     validate: {
       // this only works on create and save new user
-      validator: function(el) {
+      validator: function (el) {
         return el === this.password;
       },
       message: 'Passwords are not the same!'
@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 // password encryption
-UserSchema.pre('save', async function(next) {
+UserSchema.pre('save', async function (next) {
   // only run if password was modified
   if (!this.isModified('password')) return next();
   // hash password with cost of 12
@@ -45,6 +45,14 @@ UserSchema.pre('save', async function(next) {
 
   next();
 });
+
+// password match function
+UserSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 const User = mongoose.model('User', UserSchema);
 

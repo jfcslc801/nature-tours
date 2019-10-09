@@ -37,7 +37,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // check if user exists and password is correct
   const user = await User.findOne({ email }).select('+password');
-  console.log(user);
+  // console.log(user);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password!', 401));
@@ -61,8 +61,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
-  // console.log('TOKEN: ', token);
-
   if (!token) {
     return next(
       new AppError('You are not logged in, please login to get access!', 401)
@@ -71,9 +69,12 @@ exports.protect = catchAsync(async (req, res, next) => {
   // verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  console.log(decoded);
   // check if user exists
+  const freshUser = await User.findById(decoded.id);
 
+  if (!freshUser) {
+    return next(new AppError('No user found, invalid token!', 401));
+  }
   // check if user changed password
 
   next();

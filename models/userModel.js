@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please provide name!']
@@ -26,16 +26,17 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please confirm password!'],
     validate: {
       // this only works on create and save new user
-      validator: function (el) {
+      validator: function(el) {
         return el === this.password;
       },
       message: 'Passwords are not the same!'
     }
-  }
+  },
+  passwordChangedAt: Date
 });
 
 // password encryption
-UserSchema.pre('save', async function (next) {
+userSchema.pre('save', async function(next) {
   // only run if password was modified
   if (!this.isModified('password')) return next();
   // hash password with cost of 12
@@ -47,13 +48,27 @@ UserSchema.pre('save', async function (next) {
 });
 
 // password match function
-UserSchema.methods.correctPassword = async function (
+userSchema.methods.correctPassword = async function(
   candidatePassword,
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-const User = mongoose.model('User', UserSchema);
+//check for password match
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimeStamp;
+  }
+
+  // false means NOT changed
+  return false;
+};
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

@@ -15,7 +15,8 @@ exports.signUp = catchAsync(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm
+    passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: req.body.passwordChangedAt
   });
 
   // json web token
@@ -23,7 +24,10 @@ exports.signUp = catchAsync(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
-    token
+    token,
+    data: {
+      user: newUser
+    }
   });
 });
 
@@ -66,16 +70,26 @@ exports.protect = catchAsync(async (req, res, next) => {
       new AppError('You are not logged in, please login to get access!', 401)
     );
   }
+
   // verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   // check if user exists
-  const freshUser = await User.findById(decoded.id);
-
-  if (!freshUser) {
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
     return next(new AppError('No user found, invalid token!', 401));
   }
-  // check if user changed password
 
+  // check if user changed password
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError(
+        'User password does not match records, please try logging in!',
+        401
+      )
+    );
+  }
+  // grant access to protected route
+  req.user = currentUser;
   next();
 });

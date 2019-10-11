@@ -56,6 +56,7 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
+// route protect access
 exports.protect = catchAsync(async (req, res, next) => {
   // getting token and check if it is available
   let token;
@@ -94,3 +95,16 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
+
+// delete restrictions - only admin and lead-guide can delete
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    // roles ['admin', 'lead-guide']
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action!', 403)
+      );
+    }
+    next();
+  };
+};

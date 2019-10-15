@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const sendEmail = require('./../utils/email');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -121,6 +122,33 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // generate token
   const resetToken = user.createPaswordResetToken();
   await user.save({ validateBeforeSave: false });
+
   //send it to user email
+  const resetURL = `${req.protocol}://${req.get(
+    'host'
+  )}/users/resetPassword/${resetToken}`;
+
+  const message = `Please click here ${this.resetURL} to reset your password! \n 
+  If you did not make request to change password please ignore email.`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset token! (expires in 10 minutes)',
+      message
+    });
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email'
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(
+      new AppError('There was an error sending email, please try again!'),
+      500
+    );
+  }
 });
 exports.resetPassword = (req, res, next) => {};

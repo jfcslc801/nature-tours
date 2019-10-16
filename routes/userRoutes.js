@@ -25,6 +25,12 @@ router.patch(
   authController.protect,
   userController.updateMyAccount
 );
+// delete profile
+router.delete(
+  '/deleteMyAccount',
+  authController.protect,
+  userController.deleteMyAccount
+);
 
 router
   .route('/')

@@ -33,7 +33,6 @@ exports.updateMyAccount = catchAsync(async (req, res, next) => {
       )
     );
   }
-
   // filtered out unwanted field names that are not allowed to be updated
   const filteredBody = filterObj(req.body, 'name', 'email');
   // update user document
@@ -46,6 +45,16 @@ exports.updateMyAccount = catchAsync(async (req, res, next) => {
     data: {
       user: updatedUser
     }
+  });
+});
+
+// delete account (suspend)
+exports.deleteMyAccount = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+
+  res.status(204).json({
+    status: 'success',
+    data: null
   });
 });
 

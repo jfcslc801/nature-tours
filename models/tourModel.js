@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+// const User = require('./userModel');
 // const validator = require('validator');
 
 // Tour Schema
@@ -102,6 +103,12 @@ const tourSchema = new mongoose.Schema(
         address: String,
         description: String,
         day: Number
+      }
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        reference: 'User'
       }
     ]
   },

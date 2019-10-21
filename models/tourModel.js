@@ -129,6 +129,15 @@ tourSchema.pre('save', function(next) {
   next();
 });
 
+// populate guides with restricted fields
+tourSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordResetExpires -passwordResetToken -passwordChangedAt'
+  });
+  next();
+});
+
 //filter secret tours
 tourSchema.pre(/^find/, function(next) {
   this.find({ secretTour: { $ne: true } });

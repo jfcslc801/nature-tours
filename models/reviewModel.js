@@ -13,8 +13,7 @@ const reviewSchema = new mongoose.Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
-      select: false
+      default: Date.now
     },
     tour: {
       type: mongoose.Schema.ObjectId,
@@ -36,11 +35,8 @@ const reviewSchema = new mongoose.Schema(
 // populate user with restricted fields
 reviewSchema.pre(/^find/, function(next) {
   this.populate({
-    path: 'tour',
-    select: 'name'
-  }).populate({
     path: 'user',
-    select: 'name'
+    select: 'name photo'
   });
   next();
 });

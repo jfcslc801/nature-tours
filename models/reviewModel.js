@@ -33,10 +33,19 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-// populate guides with restricted fields
+// populate user with restricted fields
 reviewSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'user',
+    select: '-__v -passwordResetExpires -passwordResetToken -passwordChangedAt'
+  });
+  next();
+});
+
+// populate tour with restricted fields
+reviewSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'tour',
     select: '-__v -passwordResetExpires -passwordResetToken -passwordChangedAt'
   });
   next();

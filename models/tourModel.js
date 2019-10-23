@@ -123,6 +123,13 @@ tourSchema.virtual('durationWeeks').get(function() {
   return this.duration / 7;
 });
 
+// virtual polpulate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id'
+});
+
 //runs ONLY for save() or create() not update()
 tourSchema.pre('save', function(next) {
   this.slug = slugify(this.name, { lower: true });

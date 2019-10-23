@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -33,6 +32,15 @@ const reviewSchema = new mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+// populate guides with restricted fields
+reviewSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'user',
+    select: '-__v -passwordResetExpires -passwordResetToken -passwordChangedAt'
+  });
+  next();
+});
 
 // Review Model
 const Review = mongoose.model('Review', reviewSchema);

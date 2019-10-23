@@ -8,12 +8,12 @@ const reviewSchema = new mongoose.Schema(
     },
     rating: {
       type: Number,
-      min: [1, 'Rating must be above 1.0'],
-      max: [5, 'Rating must be below 5.0']
+      min: 1,
+      max: 5
     },
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
       select: false
     },
     tour: {
@@ -36,17 +36,11 @@ const reviewSchema = new mongoose.Schema(
 // populate user with restricted fields
 reviewSchema.pre(/^find/, function(next) {
   this.populate({
-    path: 'user',
-    select: '-__v -passwordResetExpires -passwordResetToken -passwordChangedAt'
-  });
-  next();
-});
-
-// populate tour with restricted fields
-reviewSchema.pre(/^find/, function(next) {
-  this.populate({
     path: 'tour',
-    select: '-__v -passwordResetExpires -passwordResetToken -passwordChangedAt'
+    select: 'name'
+  }).populate({
+    path: 'user',
+    select: 'name'
   });
   next();
 });

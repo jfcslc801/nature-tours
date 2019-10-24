@@ -59,13 +59,6 @@ exports.deleteMyAccount = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getUser = (req, res) => {
-  // respose for deleted tour
-  res.status(500).json({
-    status: 'Error',
-    message: 'This route not implemented'
-  });
-};
 exports.createUser = (req, res) => {
   // respose for deleted tour
   res.status(500).json({
@@ -74,8 +67,9 @@ exports.createUser = (req, res) => {
   });
 };
 
+// GET USER
+exports.getUser = factory.getOne(User);
 // UPDATE USER
 exports.updateUser = factory.updateOne(User);
-
 // DELETE USER
 exports.deleteUser = factory.deleteOne(User);

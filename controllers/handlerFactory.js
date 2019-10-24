@@ -49,3 +49,22 @@ exports.createOne = Model =>
       }
     });
   });
+
+// GET User, Tour and Review handler
+exports.getOne = (Model, popOptions) =>
+  catchAsync(async (req, res, next) => {
+    let query = Model.findById(req.params.id);
+    if (popOptions) query = query.populate(popOptions);
+    const doc = await query;
+
+    if (!doc) {
+      return next(new AppError('No document found with that ID!', 404));
+    }
+
+    res.status(200).json({
+      status: 'Success',
+      data: {
+        date: doc
+      }
+    });
+  });

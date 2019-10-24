@@ -1,8 +1,6 @@
 // const fs = require('fs');
 const Tour = require('./../models/tourModel');
-const APIfeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory.js');
 
 // top five cheap tours
@@ -13,26 +11,8 @@ exports.topTours = (req, res, next) => {
   next();
 };
 
-// get all tours
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  // api feature class
-  const features = new APIfeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-
-  // execute query
-  const tours = await features.query;
-  res.status(200).json({
-    status: 'Success',
-    results: tours.length,
-    data: {
-      tours
-    }
-  });
-});
-
+// GET ALL TOURS
+exports.getAllTours = factory.getAll(Tour);
 // GET TOUR
 exports.getTour = factory.getOne(Tour, { path: 'reviews' });
 // CREATE TOUR

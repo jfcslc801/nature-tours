@@ -13,17 +13,6 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-  res.status(200).json({
-    status: 'Success',
-    results: users.length,
-    data: {
-      users
-    }
-  });
-});
-
 exports.updateMyAccount = catchAsync(async (req, res, next) => {
   // create error if user updates password
   if (req.body.password || req.body.passwordConfirm) {
@@ -67,6 +56,8 @@ exports.createUser = (req, res) => {
   });
 };
 
+// GET ALL USERS
+exports.getAllUsers = factory.getAll(User);
 // GET USER
 exports.getUser = factory.getOne(User);
 // UPDATE USER

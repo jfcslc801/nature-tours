@@ -1,5 +1,6 @@
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const APIfeatures = require('./../utils/apiFeatures');
 
 // DELETE review, user and tour factory handler
 exports.deleteOne = Model =>
@@ -65,6 +66,30 @@ exports.getOne = (Model, popOptions) =>
       status: 'Success',
       data: {
         date: doc
+      }
+    });
+  });
+
+// GET all Users, Reviews and Tours handler
+exports.getAll = Model =>
+  catchAsync(async (req, res, next) => {
+    //to allow for nested GET reviews on Tour Hack
+    let filter = {};
+    if (req.params.tourId) filter = { tour: req.params.tourId };
+    // api feature class
+    const features = new APIfeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    // execute query
+    const doc = await features.query;
+    res.status(200).json({
+      status: 'Success',
+      results: doc.length,
+      data: {
+        data: doc
       }
     });
   });

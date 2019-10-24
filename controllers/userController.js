@@ -1,6 +1,7 @@
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const factory = require('./handlerFactory');
 
 // filter body object
 const filterObj = (obj, ...allowedFields) => {
@@ -79,10 +80,6 @@ exports.updateUser = (req, res) => {
     message: 'This route not implemented'
   });
 };
-exports.deleteUser = (req, res) => {
-  // respose for deleted tour
-  res.status(500).json({
-    status: 'Error',
-    message: 'This route not implemented'
-  });
-};
+
+// DELETE USER
+exports.deleteUser = factory.deleteOne(User);

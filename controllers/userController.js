@@ -73,13 +73,9 @@ exports.createUser = (req, res) => {
     message: 'This route not implemented'
   });
 };
-exports.updateUser = (req, res) => {
-  // respose for deleted tour
-  res.status(500).json({
-    status: 'Error',
-    message: 'This route not implemented'
-  });
-};
+
+// UPDATE USER
+exports.updateUser = factory.updateOne(User);
 
 // DELETE USER
 exports.deleteUser = factory.deleteOne(User);

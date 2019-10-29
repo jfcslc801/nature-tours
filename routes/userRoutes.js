@@ -5,13 +5,6 @@ const authController = require('./../controllers/authController');
 const router = express.Router();
 
 // USER ROUTES
-// get current user route
-router.get(
-  '/me',
-  authController.protect,
-  userController.getMyAccount,
-  userController.getUser
-);
 // sign up route
 router.post('/signUp', authController.signUp);
 // log in route
@@ -20,30 +13,29 @@ router.post('/login', authController.login);
 router.post('/forgotPassword', authController.forgotPassword);
 // reset password
 router.patch('/resetPassword/:token', authController.resetPassword);
-// update password
-router.patch(
-  '/updateMyPassword',
-  authController.protect,
-  authController.updatePassword
-);
-// update my account
-router.patch(
-  '/updateMyAccount',
-  authController.protect,
-  userController.updateMyAccount
-);
-// delete profile
-router.delete(
-  '/deleteMyAccount',
-  authController.protect,
-  userController.deleteMyAccount
-);
 
+// protect all routes below
+router.use(authController.protect);
+
+// update password
+router.patch('/updateMyPassword', authController.updatePassword);
+// get current user route
+router.get('/me', userController.getMyAccount, userController.getUser);
+// update my account
+router.patch('/updateMyAccount', userController.updateMyAccount);
+// delete profile
+router.delete('/deleteMyAccount', userController.deleteMyAccount);
+
+// restrict routes below to admin
+router.use(authController.restrictTo('admin'));
+
+// get all users & create user route
 router
   .route('/')
   .get(userController.getAllUsers)
   .post(userController.createUser);
 
+// get user, update user and delete user
 router
   .route('/:id')
   .get(userController.getUser)

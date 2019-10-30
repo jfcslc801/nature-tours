@@ -118,6 +118,9 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+// index field
+tourSchema.index({ price: 1, ratingAverage: -1 });
+
 //duration
 tourSchema.virtual('durationWeeks').get(function() {
   return this.duration / 7;

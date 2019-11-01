@@ -33,6 +33,9 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+// user will only be able to post one review per tour
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
 // populate user with restricted fields
 reviewSchema.pre(/^find/, function(next) {
   this.populate({

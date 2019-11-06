@@ -24,6 +24,11 @@ router
     tourController.getMonthlyPlan
   );
 
+// get tours within 250 miles
+router
+  .route('/tours-within/:distance/center/:latlng/unit/:unit')
+  .get(tourController.getToursWithin);
+
 // app route get all tours and create tour
 router
   .route('/')

@@ -14,6 +14,7 @@ const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
+// PUG VIEW ENGINE
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 

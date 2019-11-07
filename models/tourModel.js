@@ -158,11 +158,11 @@ tourSchema.pre(/^find/, function(next) {
 });
 
 // aggregation middleware
-tourSchema.pre('aggregate', function(next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  console.log(this.pipeline());
-  next();
-});
+// tourSchema.pre('aggregate', function(next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+//   console.log(this.pipeline());
+//   next();
+// });
 
 // console log new saved doc
 // tourSchema.post('save', function(doc, next) {

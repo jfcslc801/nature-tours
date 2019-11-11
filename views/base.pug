@@ -6,13 +6,13 @@ html
         link(rel='stylesheet', href='css/style.css')
         link(rel='shortcut icon', href='img/favicon.png', type='image/x-icon')
         link(href='https://fonts.googleapis.com/css?family=Lato:300,300i,700' rel='stylesheet')
-        title Tours | Exciting tours for all.
+        title Tours | #{title}
     body
         // HEADER
         include _header
         // CONTENT
-        section.overview
-            h1= Tour
+        block content
+            h1 this is a place holder.
         
         // FOOTER
         include _footer

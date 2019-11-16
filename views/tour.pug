@@ -5,8 +5,8 @@ include _reviewCard
 include _overviewBox
 
 block append head
-  script(src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js')
-  link(href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet')
+  script(src='https://api.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js')
+  link(href='https://api.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet')
 
 
 block content
@@ -66,7 +66,7 @@ block content
 
   // REVIEWS
   section.section-reviews
-    .reviews
+    .reviews  
       each review in tour.reviews
         +reviewCard(review)
 

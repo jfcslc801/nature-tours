@@ -1,5 +1,5 @@
 /* eslint-disable */
-const locations = JSON.stringify(document.getElementById('map').dataset.locations);
+const locations = JSON.parse(document.getElementById('map').dataset.locations);
 console.log(locations);
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiamZjc2xjODAxIiwiYSI6ImNrMnpjNHVpZDBkOHgzY3IzcTF5amYwc2kifQ.sDt-UQ3enbV9UyYzBNXYnw';
@@ -20,11 +20,26 @@ locations.forEach(loc => {
   new mapboxgl.Marker({
     element: el,
     anchor: 'bottom'
-  }).setLngLat(loc.coordinates)
+  })
+    .setLngLat(loc.coordinates)
     .addTo(map);
+
+  new mapboxgl.Popup({
+    offset: 30
+  })
+    .setLngLat(loc.coordinates)
+    .setHTML(`<p>Day ${loc.day} : ${loc.description}</p>`)
+    .addTo(map)
 
   // extend map bounds to include current location
   bounds.extend(loc.coordinates);
 });
 
-map.fitBounds(bounds);
+map.fitBounds(bounds, {
+  padding: {
+    top: 200,
+    bottom: 200,
+    left: 100,
+    right: 100
+  }
+});
